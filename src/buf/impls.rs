@@ -117,7 +117,7 @@ impl ReadBuf for u64 {
     where
         Self: Sized,
     {
-        Ok(u64::from_be_bytes([
+        Ok(u64::from_le_bytes([
             buf.read()?,
             buf.read()?,
             buf.read()?,
@@ -135,6 +135,6 @@ impl WriteBuf for u64 {
     where
         Self: Sized,
     {
-        buf.write(&self.to_be_bytes())
+        buf.write(&self.to_le_bytes())
     }
 }

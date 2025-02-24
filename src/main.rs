@@ -1,11 +1,7 @@
 use std::io::Error;
 
 use buf::{ByteBuffer, ReadBuf};
-use os::{
-    file::{FsEntry, FsRoot},
-    image::Image,
-    user::User,
-};
+use os::image::Image;
 
 pub mod buf;
 pub mod os;
@@ -22,18 +18,7 @@ fn main() -> Result<(), Error> {
             Ok(())
         }
         Err(_) => {
-            let image = Image {
-                disk_space: 2_u64.pow(20),
-                hostname: "somepc".to_string(),
-                users: Vec::from([User {
-                    name: "akarahdev".to_string(),
-                    password: "secretPassword".to_string(),
-                }]),
-                root_file: FsRoot::new(&[FsEntry::directory("home", &[FsEntry::directory(
-                    "akarahdev",
-                    &[FsEntry::file("my_file", [2, 4, 5, 3, 1])],
-                )])]),
-            };
+            let image = os::setup::setup_image()?;
             let mut buf = ByteBuffer::empty();
             buf.write(&MAGIC_NUMBER)?;
             buf.write(&image)?;
