@@ -5,6 +5,7 @@ use os::image::Image;
 
 pub mod buf;
 pub mod os;
+pub mod terminal;
 
 const MAGIC_NUMBER: [u8; 8] = [114, 118, 109, 73, 109, 97, 103, 101];
 

@@ -1,8 +1,11 @@
 use std::io::{Error, Write, stdin, stdout};
 
+use crate::terminal::Terminal;
+
 use super::{file::FsRoot, image::Image, user::User};
 
 pub fn setup_image() -> Result<Image, Error> {
+    Terminal::reset_screen();
     let hostname = read_hostname()?;
     let users = make_users()?;
     Ok(Image {
@@ -69,7 +72,9 @@ pub fn make_users() -> Result<Vec<User>, Error> {
                 stdout().flush()?;
                 let mut pass = String::new();
                 stdin().read_line(&mut pass)?;
-                let pass = name.trim();
+                let pass = pass.trim();
+
+                println!("pass: {:?} / name: {:?}", pass, name);
 
                 users.push(User {
                     name: name.into(),
